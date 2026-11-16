@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@import "@fontsource-variable/cairo";
+
+/* Brand tokens, same as the public website. */
+@theme {
+  --font-sans: "Cairo Variable", system-ui, sans-serif;
+  --color-brand: #8e1f2d;
+  --color-brand-hover: #751724;
+  --color-brand-dark: #63121d;
+  --color-brand-subtle: rgb(142 31 45 / 0.08);
+  --color-cream: #f4efe7;
+  --color-surface: #faf7f2;
+  --color-ink: #2b2b2b;
+  --color-muted: #665f5f;
+  --color-line: rgb(175 165 165 / 0.4);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Numbers, emails and codes read left-to-right even in Arabic. */
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+dialog::backdrop {
+  background: rgb(20 10 12 / 0.45);
+}
