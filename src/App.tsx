@@ -10,6 +10,8 @@ import { StaffPage } from "./pages/StaffPage";
 import { RolesPage } from "./pages/RolesPage";
 import { OrdersPage } from "./pages/orders/OrdersPage";
 import { OrderDetailPage } from "./pages/orders/OrderDetailPage";
+import { ReportsPage } from "./pages/ReportsPage";
+import { CustomersPage } from "./pages/CustomersPage";
 
 export function App() {
   return (
@@ -21,6 +23,8 @@ export function App() {
           <Route path="change-password" element={<ChangePasswordPage />} />
           <Route path="orders" element={<RequirePermission permission="orders.view"><OrdersPage /></RequirePermission>} />
           <Route path="orders/:id" element={<RequirePermission permission="orders.view"><OrderDetailPage /></RequirePermission>} />
+          <Route path="customers" element={<RequirePermission permission="customers.view"><CustomersPage /></RequirePermission>} />
+          <Route path="reports" element={<RequirePermission permission="reports.export"><ReportsPage /></RequirePermission>} />
           <Route path="products" element={<RequirePermission permission="products.manage"><ProductsPage /></RequirePermission>} />
           <Route path="products/new" element={<RequirePermission permission="products.manage"><ProductFormPage key="new" /></RequirePermission>} />
           <Route path="products/:id" element={<RequirePermission permission="products.manage"><ProductFormPage /></RequirePermission>} />

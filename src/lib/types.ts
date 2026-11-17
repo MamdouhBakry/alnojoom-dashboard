@@ -172,3 +172,35 @@ export interface OrderDetail {
   erp: { status: ErpStatus; ref: string | null; attempts: number; lastError: string | null; syncedAt: string | null };
   payments: OrderPayment[];
 }
+
+export interface ReportSummary {
+  range: { from: string; to: string };
+  newCustomers: number;
+  quotes: number;
+  pricedQuotes: number;
+  paidOrders: number;
+  paidTotal: number;
+  conversionRate: number;
+  abandonedCarts: number;
+  marketingContacts: number;
+  transfersToReview: number;
+  erpFailed: number;
+  daily: { day: string; quotes: number; paidOrders: number }[];
+}
+
+export interface CustomerRow {
+  id: number;
+  name: string;
+  email: string;
+  phone: string | null;
+  companyName: string | null;
+  emailVerified: boolean;
+  googleLinked: boolean;
+  marketingConsent: boolean;
+  marketingConsentAt: string | null;
+  isActive: boolean;
+  paidOrders: number;
+  paidTotal: number;
+  createdAt: string;
+  lastLoginAt: string | null;
+}

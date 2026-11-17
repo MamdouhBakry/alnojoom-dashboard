@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Navigate, NavLink, Outlet, useLocation } from "react-router";
-import { Home, Package, Images, Users, ShieldCheck, LogOut, Menu, KeyRound, ReceiptText } from "lucide-react";
+import { Home, Package, Images, Users, ShieldCheck, LogOut, Menu, KeyRound, ReceiptText, Contact, ChartColumn } from "lucide-react";
 import { useAuth } from "../auth/AuthProvider";
 import { useI18n } from "../i18n/I18nProvider";
 import type { Permission } from "../lib/types";
@@ -28,6 +28,8 @@ export function Layout() {
   const items: NavItem[] = [
     { to: "/", label: t.nav.home, icon: <Home className="size-5" /> },
     { to: "/orders", label: t.nav.orders, icon: <ReceiptText className="size-5" />, permission: "orders.view" },
+    { to: "/customers", label: t.nav.customers, icon: <Contact className="size-5" />, permission: "customers.view" },
+    { to: "/reports", label: t.nav.reports, icon: <ChartColumn className="size-5" />, permission: "reports.export" },
     { to: "/products", label: t.nav.products, icon: <Package className="size-5" />, permission: "products.manage" },
     { to: "/offers", label: t.nav.offers, icon: <Images className="size-5" />, permission: "offers.manage" },
     { to: "/staff", label: t.nav.staff, icon: <Users className="size-5" />, permission: "staff.manage" },

@@ -67,8 +67,34 @@ async function blob(path: string): Promise<Blob> {
   return res.blob();
 }
 
+/** Downloads a file and saves it with the name the server gives (Content-Disposition). */
+async function download(path: string, fallbackName: string) {
+  let res: Response;
+  try {
+    res = await fetch(`${ADMIN}${path}`, { credentials: "include" });
+  } catch {
+    throw new ApiError("NETWORK_ERROR", 0);
+  }
+  if (!res.ok) {
+    const json = await res.json().catch(() => null);
+    if (res.status === 401) onUnauthorized?.();
+    throw new ApiError(json?.error?.code ?? "UNKNOWN", res.status);
+  }
+  const name = res.headers.get("content-disposition")?.match(/filename="([^"]+)"/)?.[1] ?? fallbackName;
+  const url = URL.createObjectURL(await res.blob());
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  return name;
+}
+
 export const api = {
   blob,
+  download,
   get: <T>(path: string) => request<T>("GET", path),
   post: <T>(path: string, body?: Body) => request<T>("POST", path, body),
   patch: <T>(path: string, body?: Body) => request<T>("PATCH", path, body),
