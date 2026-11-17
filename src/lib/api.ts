@@ -51,7 +51,24 @@ async function request<T>(method: string, path: string, body?: Body): Promise<T>
   return json.data as T;
 }
 
+/** Downloads a file (e.g. a transfer receipt) with the staff cookie. */
+async function blob(path: string): Promise<Blob> {
+  let res: Response;
+  try {
+    res = await fetch(`${ADMIN}${path}`, { credentials: "include" });
+  } catch {
+    throw new ApiError("NETWORK_ERROR", 0);
+  }
+  if (!res.ok) {
+    const json = await res.json().catch(() => null);
+    if (res.status === 401) onUnauthorized?.();
+    throw new ApiError(json?.error?.code ?? "UNKNOWN", res.status);
+  }
+  return res.blob();
+}
+
 export const api = {
+  blob,
   get: <T>(path: string) => request<T>("GET", path),
   post: <T>(path: string, body?: Body) => request<T>("POST", path, body),
   patch: <T>(path: string, body?: Body) => request<T>("PATCH", path, body),

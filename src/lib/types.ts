@@ -105,3 +105,70 @@ export interface Role {
   permissions: Permission[];
   staffCount: number;
 }
+
+export type OrderStatus = "awaiting_payment" | "awaiting_transfer" | "transfer_review" | "paid" | "cancelled";
+export type PaymentStatus = "initiated" | "paid" | "failed" | "awaiting_receipt" | "pending_review" | "rejected" | "cancelled";
+export type PaymentMethod = "card" | "bank_transfer";
+export type ErpStatus = "not_sent" | "pending" | "synced" | "failed";
+
+export interface OrderContact {
+  name: string;
+  email: string;
+  phone: string;
+  companyName: string | null;
+}
+
+export interface OrderListItem {
+  id: number;
+  number: string;
+  status: OrderStatus;
+  contact: OrderContact;
+  total: number;
+  payment: { method: PaymentMethod; status: PaymentStatus } | null;
+  erpStatus: ErpStatus;
+  createdAt: string;
+  paidAt: string | null;
+}
+
+export interface OrderList extends Paged<OrderListItem> {
+  counts: Partial<Record<OrderStatus, number>>;
+}
+
+export interface OrderPayment {
+  id: number;
+  method: PaymentMethod;
+  status: PaymentStatus;
+  amount: number;
+  providerRef: string | null;
+  providerInfo: string | null;
+  failureReason: string | null;
+  hasReceipt: boolean;
+  receiptMime: string | null;
+  receiptUploadedAt: string | null;
+  reviewedBy: string | null;
+  reviewedAt: string | null;
+  reviewNote: string | null;
+  createdAt: string;
+  paidAt: string | null;
+}
+
+export interface OrderDetail {
+  id: number;
+  number: string;
+  publicId: string;
+  quoteNumber: string;
+  status: OrderStatus;
+  locale: "ar" | "en";
+  contact: OrderContact;
+  lines: { slug: string; name: Localized; quantity: number; unit: "kg" | "ton"; unitPrice: number; lineTotal: number; erpName: string }[];
+  subtotal: number;
+  deliveryFee: number;
+  total: number;
+  paidAt: string | null;
+  cancelledAt: string | null;
+  cancelReason: string | null;
+  createdAt: string;
+  transferDueAt: string | null;
+  erp: { status: ErpStatus; ref: string | null; attempts: number; lastError: string | null; syncedAt: string | null };
+  payments: OrderPayment[];
+}

@@ -18,7 +18,9 @@ The backend must list this origin in `CORS_ORIGINS`. Create the first admin from
 | Screen | Permission |
 |---|---|
 | Sign in, change password (forced after first sign-in / reset) | — |
-| Home: counts + duplicate ERP-name warning | per card |
+| Home: counts (transfers to review, paid orders, products, offers) + duplicate ERP-name warning | per card |
+| Orders: status tabs with counts, search, detail with items (ERP names), payments, ERP status | `orders.view` |
+| Bank transfer review: receipt (image or PDF) next to the amount, confirm with a note or reject with a reason | `payments.confirm` |
 | Products: search, filters, create/edit, hide, delete/restore, images (upload, order, delete) | `products.manage` |
 | Offers: 5 slots, Arabic/English desktop + mobile images, link, visible toggle | `offers.manage` |
 | Staff: create (one-time temporary password), change role, deactivate, reset password | `staff.manage` |
