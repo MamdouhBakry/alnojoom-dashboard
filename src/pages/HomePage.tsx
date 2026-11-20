@@ -1,11 +1,11 @@
 import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { AlertTriangle, Package, EyeOff, Images, FileClock, BadgeCheck } from "lucide-react";
+import { AlertTriangle, Package, EyeOff, Images, FileClock, BadgeCheck, Mail, ClipboardList } from "lucide-react";
 import type { ReactNode } from "react";
 import { useAuth } from "../auth/AuthProvider";
 import { useI18n } from "../i18n/I18nProvider";
 import { api } from "../lib/api";
-import type { AdminProduct, OrderList, Paged } from "../lib/types";
+import type { AdminProduct, OrderList, Paged, RequestList } from "../lib/types";
 import { useErpConflicts, useOffers } from "../lib/queries";
 import { PageHeader } from "../components/ui";
 
@@ -31,6 +31,20 @@ export function HomePage() {
     queryKey: ["orders", "counts"],
     queryFn: () => api.get<OrderList>("/orders?pageSize=1").then((r) => r.counts),
     enabled: canOrders,
+    refetchInterval: 60_000,
+  });
+
+  const canRequests = can("requests.manage");
+  const newRequests = useQuery({
+    queryKey: ["requests", "counts"],
+    queryFn: async () => {
+      const [m, q] = await Promise.all([
+        api.get<RequestList<unknown>>("/messages?status=new&pageSize=1"),
+        api.get<RequestList<unknown>>("/quote-requests?status=new&pageSize=1"),
+      ]);
+      return { messages: m.total, quoteRequests: q.total };
+    },
+    enabled: canRequests,
     refetchInterval: 60_000,
   });
 
@@ -71,6 +85,10 @@ export function HomePage() {
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {canRequests && (
+          <Stat icon={<ClipboardList className="size-6" />} value={newRequests.data?.quoteRequests} label={t.home.newQuoteRequests} to="/quote-requests" />
+        )}
+        {canRequests && <Stat icon={<Mail className="size-6" />} value={newRequests.data?.messages} label={t.home.newMessages} to="/messages" />}
         {canOrders && (
           <Stat icon={<FileClock className="size-6" />} value={orderCounts.data ? (orderCounts.data.transfer_review ?? 0) : undefined} label={t.home.transfersToReview} to="/orders" />
         )}
