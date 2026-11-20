@@ -12,6 +12,10 @@ import { OrdersPage } from "./pages/orders/OrdersPage";
 import { OrderDetailPage } from "./pages/orders/OrderDetailPage";
 import { ReportsPage } from "./pages/ReportsPage";
 import { CustomersPage } from "./pages/CustomersPage";
+import { MessagesPage } from "./pages/requests/MessagesPage";
+import { MessageDetailPage } from "./pages/requests/MessageDetailPage";
+import { QuoteRequestsPage } from "./pages/requests/QuoteRequestsPage";
+import { QuoteRequestDetailPage } from "./pages/requests/QuoteRequestDetailPage";
 
 export function App() {
   return (
@@ -23,6 +27,10 @@ export function App() {
           <Route path="change-password" element={<ChangePasswordPage />} />
           <Route path="orders" element={<RequirePermission permission="orders.view"><OrdersPage /></RequirePermission>} />
           <Route path="orders/:id" element={<RequirePermission permission="orders.view"><OrderDetailPage /></RequirePermission>} />
+          <Route path="messages" element={<RequirePermission permission="requests.manage"><MessagesPage /></RequirePermission>} />
+          <Route path="messages/:id" element={<RequirePermission permission="requests.manage"><MessageDetailPage /></RequirePermission>} />
+          <Route path="quote-requests" element={<RequirePermission permission="requests.manage"><QuoteRequestsPage /></RequirePermission>} />
+          <Route path="quote-requests/:id" element={<RequirePermission permission="requests.manage"><QuoteRequestDetailPage /></RequirePermission>} />
           <Route path="customers" element={<RequirePermission permission="customers.view"><CustomersPage /></RequirePermission>} />
           <Route path="reports" element={<RequirePermission permission="reports.export"><ReportsPage /></RequirePermission>} />
           <Route path="products" element={<RequirePermission permission="products.manage"><ProductsPage /></RequirePermission>} />

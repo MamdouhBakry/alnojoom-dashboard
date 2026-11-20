@@ -9,6 +9,7 @@ export type Permission =
   | "products.manage"
   | "offers.manage"
   | "orders.view"
+  | "requests.manage"
   | "payments.confirm"
   | "erp.resend"
   | "reports.export"
@@ -203,4 +204,69 @@ export interface CustomerRow {
   paidTotal: number;
   createdAt: string;
   lastLoginAt: string | null;
+}
+
+// ---------------------------------------------------------------- Website forms (contact + quote requests)
+
+export type RequestStatus = "new" | "in_progress" | "closed" | "spam";
+
+export interface RequestList<T> extends Paged<T> {
+  counts: Partial<Record<RequestStatus, number>>;
+}
+
+interface RequestHandling {
+  status: RequestStatus;
+  staffNote: string | null;
+  handledBy: { id: number; name: string | null } | null;
+  handledAt: string | null;
+}
+
+export interface MessageListItem {
+  id: number;
+  reference: string;
+  status: RequestStatus;
+  name: string;
+  phone: string;
+  email: string | null;
+  preview: string;
+  captchaUnverified: boolean;
+  submittedAt: string;
+}
+
+export interface MessageDetail extends RequestHandling {
+  id: number;
+  reference: string;
+  name: string;
+  phone: string;
+  email: string | null;
+  message: string;
+  locale: "ar" | "en";
+  captchaUnverified: boolean;
+  submittedAt: string;
+}
+
+export interface QuoteRequestListItem {
+  id: number;
+  reference: string;
+  status: RequestStatus;
+  mode: "retail" | "wholesale";
+  companyName: string;
+  phone: string;
+  email: string;
+  itemCount: number;
+  captchaUnverified: boolean;
+  submittedAt: string;
+}
+
+export interface QuoteRequestDetail extends RequestHandling {
+  id: number;
+  reference: string;
+  mode: "retail" | "wholesale";
+  companyName: string;
+  phone: string;
+  email: string;
+  locale: "ar" | "en";
+  captchaUnverified: boolean;
+  submittedAt: string;
+  items: { id: number; productSlug: string; productName: string; quantity: number; unit: "kg" | "ton" }[];
 }
