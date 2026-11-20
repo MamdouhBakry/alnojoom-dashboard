@@ -19,6 +19,7 @@ const paymentTone: Record<PaymentStatus, Tone> = {
   pending_review: "warning",
   rejected: "danger",
   cancelled: "neutral",
+  refunded: "danger",
 };
 const erpTone: Record<ErpStatus, Tone> = { not_sent: "neutral", pending: "warning", synced: "success", failed: "danger" };
 
