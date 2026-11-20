@@ -108,7 +108,7 @@ export interface Role {
 }
 
 export type OrderStatus = "awaiting_payment" | "awaiting_transfer" | "transfer_review" | "paid" | "cancelled";
-export type PaymentStatus = "initiated" | "paid" | "failed" | "awaiting_receipt" | "pending_review" | "rejected" | "cancelled";
+export type PaymentStatus = "initiated" | "paid" | "failed" | "awaiting_receipt" | "pending_review" | "rejected" | "cancelled" | "refunded";
 export type PaymentMethod = "card" | "bank_transfer";
 export type ErpStatus = "not_sent" | "pending" | "synced" | "failed";
 
@@ -143,6 +143,9 @@ export interface OrderPayment {
   providerRef: string | null;
   providerInfo: string | null;
   failureReason: string | null;
+  /** SAR refunded in Moyasar (0 when none) */
+  refundedAmount: number;
+  refundedAt: string | null;
   hasReceipt: boolean;
   receiptMime: string | null;
   receiptUploadedAt: string | null;

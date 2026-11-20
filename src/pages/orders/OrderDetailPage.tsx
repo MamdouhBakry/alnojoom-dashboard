@@ -117,6 +117,12 @@ export function OrderDetailPage() {
                         {p.providerInfo && <span className="ltr text-muted"> ({p.providerInfo})</span>}
                       </div>
                     )}
+                    {p.refundedAmount > 0 && (
+                      <div className="text-xs text-red-700">
+                        {t.orders.refunded}: <span className="ltr font-semibold">{money(p.refundedAmount)}</span>
+                        {p.refundedAt && <bdi className="text-muted"> · {formatDate(p.refundedAt)}</bdi>}
+                      </div>
+                    )}
                     {p.failureReason && (
                       <div className="text-xs text-red-700">
                         {t.orders.failure}: {p.failureReason}
