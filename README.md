@@ -39,6 +39,8 @@ The menu hides what a role can't use, but the API is what enforces permissions.
 ```bash
 npm run build               # type-check + static files in dist/
 ```
+**Docker (current server):** `docker build -t alnojoom-dashboard .` gives an Nginx image (`nginx.conf`: client routes, noindex). Built with an empty `VITE_API_URL`, so it calls `/api` on its own domain and the reverse proxy sends `/api` and `/health` to the API. Full guide: `star-meat-website/docs/deploy-docker.md`.
+
 `dist/` is plain static files: upload it anywhere (shared hosting, Nginx, a sub-domain such as `admin.example.sa`).
 - `VITE_API_URL` is baked in at build time: rebuild after changing it.
 - In a sub-folder: `BASE_PATH=/admin/ npm run build`.
