@@ -128,7 +128,9 @@ export function ProductFormPage() {
 
   const groups = lookups.data?.groups.filter((g) => String(g.categoryId) === form.categoryId) ?? [];
   const Back = dir === "rtl" ? ArrowRight : ArrowLeft;
-  const erpConflict = save.error && (save.error as { code?: string }).code === "ERP_NAME_TAKEN";
+  const saveCode = save.error ? (save.error as { code?: string }).code : undefined;
+  const erpConflict = saveCode === "ERP_NAME_TAKEN";
+  const erpIdConflict = saveCode === "ERP_ID_TAKEN";
 
   return (
     <form onSubmit={submit}>
@@ -180,7 +182,7 @@ export function ProductFormPage() {
                 value={form.erpName}
                 onChange={(e) => set("erpName", e.target.value)}
               />
-              <TextInput label={t.productForm.erpId} hint={t.productForm.erpIdHint} dir="ltr" maxLength={80} value={form.erpId} onChange={(e) => set("erpId", e.target.value)} />
+              <TextInput label={t.productForm.erpId} hint={t.productForm.erpIdHint} error={erpIdConflict ? t.errors.ERP_ID_TAKEN : undefined} dir="ltr" maxLength={80} value={form.erpId} onChange={(e) => set("erpId", e.target.value)} />
             </div>
           </Card>
 
